@@ -20,5 +20,10 @@ cd prometheus-3.5.0.linux-amd64
 mv prometheus /usr/local/bin
 mv promtool /usr/local/bin
 ```
+```bash
+sudo chown -R prometheus:prometheus /etc/prometheus /var/lib/prometheus
+sudo chown prometheus:prometheus /usr/local/bin/prometheus /usr/local/bin/promtool
+```
+
 ------------------------
 
