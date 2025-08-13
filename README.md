@@ -111,6 +111,83 @@ Replace `<MONITORING_SERVER_IP>` with your server’s IP address. You should see
 
 ---
 
+---
+
+## 1. Create node_exporter User
+
+```bash
+sudo useradd --no-create-home --shell /bin/false node_exporter
+```
+
+---
+
+## 2. Download & Install Node Exporter
+
+```bash
+cd /tmp
+curl -LO https://github.com/prometheus/node_exporter/releases/latest/download/node_exporter-1.8.2.linux-amd64.tar.gz
+tar xvf node_exporter-*.tar.gz
+sudo mv node_exporter-*/node_exporter /usr/local/bin/
+sudo chown node_exporter:node_exporter /usr/local/bin/node_exporter
+```
+
+---
+
+## 3. Create a Systemd Service
+
+Create a new service file:
+
+```bash
+sudo nano /etc/systemd/system/node_exporter.service
+```
+
+Paste the following content:
+
+```ini
+[Unit]
+Description=Node Exporter
+After=network.target
+
+[Service]
+User=node_exporter
+Group=node_exporter
+Type=simple
+ExecStart=/usr/local/bin/node_exporter
+
+[Install]
+WantedBy=multi-user.target
+```
+
+---
+
+## 4. Enable & Start Node Exporter
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable node_exporter
+sudo systemctl start node_exporter
+```
+
+---
+
+## 5. Test Node Exporter
+
+Open a browser and visit:
+
+```
+http://<YOUR_SERVER_IP>:9100/metrics
+```
+
+You should see a list of metrics being exported.
+
+---
+
+## Notes
+
+- Make sure port `9100` is open in your firewall.
+- Repeat these instructions on each server you want to monitor.
+
+
 ## References
 
 - [Prometheus Documentation](https://prometheus.io/docs/)
