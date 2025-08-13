@@ -26,4 +26,14 @@ sudo chown prometheus:prometheus /usr/local/bin/prometheus /usr/local/bin/promto
 ```
 
 ------------------------
+## Setup Steps
+
+1. **Copy the Configuration**
+
+   Copy `prometheus.yml` to your Prometheus directory.
+
+
+
+
+------------------------
 
