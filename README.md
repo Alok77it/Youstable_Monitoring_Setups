@@ -20,6 +20,7 @@ cd prometheus-3.5.0.linux-amd64
 mv prometheus /usr/local/bin
 mv promtool /usr/local/bin
 ```
+------------------------
 
 
 ------------------------
