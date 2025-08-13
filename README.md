@@ -187,6 +187,68 @@ You should see a list of metrics being exported.
 - Make sure port `9100` is open in your firewall.
 - Repeat these instructions on each server you want to monitor.
 
+# Grafana Installation Guide
+
+This guide explains how to install and start Grafana on a Debian/Ubuntu-based server, and configure data sources.
+
+---
+
+## 1. Install Prerequisites
+
+```bash
+sudo apt install -y apt-transport-https software-properties-common
+```
+
+---
+
+## 2. Add Grafana Repository & Key
+
+```bash
+sudo mkdir -p /etc/apt/keyrings/
+wget -q -O - https://packages.grafana.com/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/grafana.gpg
+echo "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://packages.grafana.com/oss/deb stable main" | sudo tee /etc/apt/sources.list.d/grafana.list
+```
+
+---
+
+## 3. Install Grafana
+
+```bash
+sudo apt update
+sudo apt install grafana -y
+```
+
+---
+
+## 4. Enable and Start Grafana
+
+```bash
+sudo systemctl enable grafana-server
+sudo systemctl start grafana-server
+```
+
+---
+
+## 5. Access Grafana
+
+Open your browser and go to:
+
+```
+http://<MONITORING_SERVER_IP>:3000
+```
+
+- **Default Login:**  
+  - Username: `admin`  
+  - Password: `admin`
+
+---
+
+## 6. Add Data Sources
+
+After logging into Grafana, add the following data sources:
+
+- **Prometheus:**  
+  URL: `http://localhost:9090`
 
 ## References
 
