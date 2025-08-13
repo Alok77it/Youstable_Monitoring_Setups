@@ -32,6 +32,34 @@ sudo chown prometheus:prometheus /usr/local/bin/prometheus /usr/local/bin/promto
 
    Copy `prometheus.yml` to your Prometheus directory.
 
+2. Create systemd Service
+
+Create a new service file for Prometheus:
+
+```bash
+sudo nano /etc/systemd/system/prometheus.service
+```
+   Copy `prometheus.service` to your Prometheus directory.
+3. Enable and Start the Service
+
+Reload systemd, enable Prometheus to start on boot, and start the service:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable prometheus
+sudo systemctl start prometheus
+```
+
+---
+
+4. Test Prometheus
+
+Open your browser and visit:
+
+```
+http://<MONITORING_SERVER_IP>:9090
+```
+
 
 
 
