@@ -7,7 +7,7 @@ sudo apt update && sudo apt upgrade && sudo fwupdmgr get-updates && sudo fwupdmg
 ```
 ------------------------
 
-###Setup and installations
+### Setup and installations
 ```bash
 sudo useradd --no-create-home --shell /bin/false prometheus
 ```
