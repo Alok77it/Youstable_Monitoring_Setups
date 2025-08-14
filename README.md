@@ -250,6 +250,163 @@ After logging into Grafana, add the following data sources:
 - **Prometheus:**  
   URL: `http://localhost:9090`
 
+---
+
+## 🚀 Loki Setup (Monitoring Server)
+
+Loki acts as the log storage and query engine.
+
+### 1️⃣ Install Loki
+
+```bash
+# Create Loki user (no shell, no home)
+sudo useradd --no-create-home --shell /bin/false loki
+
+# Create config and data directories
+sudo mkdir /etc/loki
+sudo mkdir -p /var/lib/loki
+sudo chown loki:loki /var/lib/loki
+
+# Download latest Loki binary
+cd /tmp
+curl -LO https://github.com/grafana/loki/releases/latest/download/loki-linux-amd64.zip
+unzip loki-linux-amd64.zip
+sudo mv loki-linux-amd64 /usr/local/bin/loki
+sudo chown loki:loki /usr/local/bin/loki
+sudo chmod +x /usr/local/bin/loki
+```
+
+---
+
+### 2️⃣ Loki Configuration
+
+Create the configuration file:
+
+```bash
+sudo nano /etc/loki/loki-config.yml
+```
+
+Copy the code from File and paste.
+
+
+---
+
+### 3️⃣ Loki as a Systemd Service
+
+Create the service file:
+
+```bash
+sudo nano /etc/systemd/system/loki.service
+```
+
+Copy and paste the file content 
+
+
+---
+
+### 4️⃣ Enable & Start Loki
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable loki
+sudo systemctl start loki
+sudo systemctl status loki
+```
+
+#### ✅ Test Loki
+
+Visit:  
+```
+http://<MONITORING_SERVER_IP>:3100/metrics
+```
+You should see Loki metrics output.
+
+---
+
+## 📦 Promtail Setup (Log Shipping Agent)
+
+Promtail runs on each server where you want to collect logs.
+
+### 1️⃣ Install Promtail
+
+```bash
+# Create Promtail user
+sudo useradd --no-create-home --shell /bin/false promtail
+
+# Create config and data directories
+sudo mkdir /etc/promtail
+sudo mkdir -p /var/lib/promtail
+sudo chown promtail:promtail /var/lib/promtail
+
+# Download the latest Promtail binary
+cd /tmp
+curl -LO https://github.com/grafana/loki/releases/latest/download/promtail-linux-amd64.zip
+unzip promtail-linux-amd64.zip
+sudo mv promtail-linux-amd64 /usr/local/bin/promtail
+sudo chown promtail:promtail /usr/local/bin/promtail
+sudo chmod +x /usr/local/bin/promtail
+```
+
+---
+
+### 2️⃣ Promtail Configuration
+
+Create the configuration file:
+
+```bash
+sudo nano /etc/promtail/promtail-config.yml
+```
+
+Paste (replace `<MONITORING_SERVER_IP>` with your Loki server's IP).
+
+---
+
+### 3️⃣ Promtail as a Systemd Service
+
+Create the service file:
+
+```bash
+sudo nano /etc/systemd/system/promtail.service
+```
+Cop and paste the file content.
+
+---
+
+### 4️⃣ Enable & Start Promtail
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable promtail
+sudo systemctl start promtail
+sudo systemctl status promtail
+```
+
+#### ✅ Test Promtail
+
+Check logs are being shipped:
+
+```bash
+sudo journalctl -u promtail -f
+```
+
+---
+
+## 🔎 Verifying the Setup
+
+- **Loki**:  
+  Visit `http://<MONITORING_SERVER_IP>:3100/metrics` to check if Loki is running.
+- **Promtail**:  
+  Use `sudo journalctl -u promtail -f` to see Promtail log shipping activity.
+
+---
+
+## 📝 Notes
+
+- Adjust log paths in the scraping configs as needed for your system.
+- Secure Loki by enabling authentication (`auth_enabled: true`) and using TLS in production.
+- Integrate Grafana to visualize and query logs from your Loki setup.
+
+
 ## References
 
 - [Prometheus Documentation](https://prometheus.io/docs/)
