@@ -1,226 +1,107 @@
 {
   "annotations": {
-    "list": [
-      {
-        "builtIn": 1,
-        "datasource": {
-          "type": "datasource",
-          "uid": "grafana"
-        },
-        "enable": true,
-        "hide": true,
-        "iconColor": "rgba(0, 211, 255, 1)",
-        "name": "Annotations & Alerts",
-        "type": "dashboard"
-      }
-    ]
+    "list": []
   },
   "editable": true,
-  "schemaVersion": 37,
-  "title": "Attractive Server Monitoring",
-  "version": 3,
+  "gnetId": null,
+  "graphTooltip": 0,
   "panels": [
     {
-      "type": "gauge",
-      "title": "RAM Usage",
       "datasource": "Prometheus",
-      "targets": [
-        {
-          "expr": "node_memory_MemTotal_bytes",
-          "legendFormat": "Total",
-          "refId": "A"
-        },
-        {
-          "expr": "node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes",
-          "legendFormat": "Used",
-          "refId": "B"
-        },
-        {
-          "expr": "node_memory_MemAvailable_bytes",
-          "legendFormat": "Free",
-          "refId": "C"
-        }
-      ],
-      "options": {
-        "reduceOptions": { "calcs": ["lastNotNull"] },
-        "orientation": "auto",
-        "colorMode": "value",
-        "fieldOptions": {
-          "defaults": {
-            "unit": "bytes",
-            "decimals": 2,
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                { "color": "green", "value": null },
-                { "color": "orange", "value": 70 },
-                { "color": "red", "value": 90 }
-              ]
-            }
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
           }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
         }
       },
-      "gridPos": { "x": 0, "y": 0, "w": 6, "h": 6 }
-    },
-    {
-      "type": "gauge",
-      "title": "Swap Usage",
-      "datasource": "Prometheus",
       "targets": [
         {
-          "expr": "node_memory_SwapTotal_bytes",
-          "legendFormat": "Total",
-          "refId": "A"
-        },
-        {
-          "expr": "node_memory_SwapTotal_bytes - node_memory_SwapFree_bytes",
-          "legendFormat": "Used",
-          "refId": "B"
-        },
-        {
-          "expr": "node_memory_SwapFree_bytes",
-          "legendFormat": "Free",
-          "refId": "C"
-        }
-      ],
-      "options": {
-        "reduceOptions": { "calcs": ["lastNotNull"] },
-        "orientation": "auto",
-        "colorMode": "value",
-        "fieldOptions": {
-          "defaults": {
-            "unit": "bytes",
-            "decimals": 2,
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                { "color": "green", "value": null },
-                { "color": "orange", "value": 70 },
-                { "color": "red", "value": 90 }
-              ]
-            }
-          }
-        }
-      },
-      "gridPos": { "x": 6, "y": 0, "w": 6, "h": 6 }
-    },
-    {
-      "type": "gauge",
-      "title": "Disk Usage",
-      "datasource": "Prometheus",
-      "targets": [
-        {
-          "expr": "sum(node_filesystem_size_bytes{fstype!=\"tmpfs\"})",
-          "legendFormat": "Total",
-          "refId": "A"
-        },
-        {
-          "expr": "sum(node_filesystem_size_bytes{fstype!=\"tmpfs\"}) - sum(node_filesystem_free_bytes{fstype!=\"tmpfs\"})",
-          "legendFormat": "Used",
-          "refId": "B"
-        },
-        {
-          "expr": "sum(node_filesystem_free_bytes{fstype!=\"tmpfs\"})",
-          "legendFormat": "Free",
-          "refId": "C"
-        }
-      ],
-      "options": {
-        "reduceOptions": { "calcs": ["lastNotNull"] },
-        "orientation": "auto",
-        "colorMode": "value",
-        "fieldOptions": {
-          "defaults": {
-            "unit": "bytes",
-            "decimals": 2,
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                { "color": "green", "value": null },
-                { "color": "orange", "value": 70 },
-                { "color": "red", "value": 90 }
-              ]
-            }
-          }
-        }
-      },
-      "gridPos": { "x": 0, "y": 6, "w": 6, "h": 6 }
-    },
-    {
-      "type": "timeseries",
-      "title": "CPU Usage (%)",
-      "datasource": "Prometheus",
-      "targets": [
-        {
-          "expr": "100 - (avg by (instance) (irate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)",
+          "expr": "100 - (avg by(instance) (rate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)",
           "legendFormat": "{{instance}}",
           "refId": "A"
         }
       ],
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percent",
-          "decimals": 1,
-          "thresholds": {
-            "mode": "percentage",
-            "steps": [
-              { "color": "green", "value": null },
-              { "color": "orange", "value": 70 },
-              { "color": "red", "value": 90 }
-            ]
-          }
-        }
-      },
-      "gridPos": { "x": 6, "y": 6, "w": 6, "h": 6 }
+      "title": "CPU Usage (%)",
+      "type": "timeseries"
     },
     {
-      "type": "timeseries",
-      "title": "Network Traffic",
       "datasource": "Prometheus",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 2,
       "targets": [
         {
-          "expr": "sum by (instance) (rate(node_network_receive_bytes_total{device!~\"lo\"}[5m]))",
-          "legendFormat": "{{instance}} RX",
+          "expr": "(1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100",
+          "legendFormat": "{{instance}}",
           "refId": "A"
-        },
-        {
-          "expr": "sum by (instance) (rate(node_network_transmit_bytes_total{device!~\"lo\"}[5m]))",
-          "legendFormat": "{{instance}} TX",
-          "refId": "B"
         }
       ],
-      "fieldConfig": {
-        "defaults": {
-          "unit": "Bps",
-          "decimals": 2
-        }
-      },
-      "gridPos": { "x": 0, "y": 12, "w": 12, "h": 6 }
+      "title": "Memory Usage (%)",
+      "type": "timeseries"
     },
     {
-      "type": "timeseries",
-      "title": "Disk I/O Activity",
       "datasource": "Prometheus",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 3,
       "targets": [
         {
-          "expr": "sum by (instance) (rate(node_disk_read_bytes_total[5m]))",
-          "legendFormat": "{{instance}} Read",
+          "expr": "node_filesystem_avail_bytes{mountpoint=\"/\"} / node_filesystem_size_bytes{mountpoint=\"/\"} * 100",
+          "legendFormat": "{{instance}}",
           "refId": "A"
-        },
-        {
-          "expr": "sum by (instance) (rate(node_disk_written_bytes_total[5m]))",
-          "legendFormat": "{{instance}} Write",
-          "refId": "B"
         }
       ],
-      "fieldConfig": {
-        "defaults": {
-          "unit": "Bps",
-          "decimals": 2
-        }
+      "title": "Disk Free (%)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Loki",
+      "gridPos": {
+        "h": 16,
+        "w": 24,
+        "x": 0,
+        "y": 16
       },
-      "gridPos": { "x": 0, "y": 18, "w": 12, "h": 6 }
+      "id": 4,
+      "options": {
+        "showLabels": true,
+        "showTime": true,
+        "wrapLogMessage": true
+      },
+      "targets": [
+        {
+          "expr": "{job=\"varlogs\"}",
+          "refId": "A"
+        }
+      ],
+      "title": "Live Logs (Loki)",
+      "type": "logs"
     }
-  ]
+  ],
+  "schemaVersion": 36,
+  "title": "VPS Monitoring + Logs",
+  "version": 1
 }
